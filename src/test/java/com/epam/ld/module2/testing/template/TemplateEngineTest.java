@@ -8,7 +8,9 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TemplateEngineTest {
 
     @Test
-    public void testGenerateMessagePlaceholderReplacement() {
+    public void testGenerateMessagePlaceholderReplacement() throws Exception {
+        System.setProperty("value", "#{tag}");
+        System.setProperty("tag", "ThisIsTag");
         TemplateEngine templateEngine = new TemplateEngine();
         Template template = new Template();
         template.setMessage("text: #{value}");
@@ -31,7 +33,7 @@ public class TemplateEngineTest {
     }
 
     @Test
-    public void testGenerateMessageIgnoresPlaceholdersNotInTemplate() {
+    public void testGenerateMessageIgnoresPlaceholdersNotInTemplate() throws Exception {
         TemplateEngine templateEngine = new TemplateEngine();
         Template template = new Template();
         template.setMessage("text");
