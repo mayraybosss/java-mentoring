@@ -32,7 +32,22 @@ BEGIN
   RETURN NEW;
 END;
 
-CREATE TRIGGER update_students_trigger
+CREATE OR REPLACE TRIGGER update_students_trigger
 BEFORE UPDATE ON students
 FOR EACH ROW
 EXECUTE FUNCTION update_students_updated_datetime();
+
+CREATE OR REPLACE FUNCTION validate_student_name()
+RETURNS TRIGGER AS
+BEGIN
+  IF NEW.name ~ '[@#$]' THEN
+    RAISE EXCEPTION 'InvalidName: %', NEW.name;
+  END IF;
+  RETURN NEW;
+END;
+LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER validate_student_name_trigger
+BEFORE INSERT OR UPDATE ON students
+FOR EACH ROW
+EXECUTE FUNCTION validate_student_name();
