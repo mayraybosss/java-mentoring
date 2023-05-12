@@ -24,3 +24,15 @@ CREATE TABLE exam_results (
     mark INTEGER NOT NULL,
     CONSTRAINT unique_exam_result UNIQUE (student_id, subject_id)
 );
+
+CREATE OR REPLACE FUNCTION update_students_updated_datetime()
+RETURNS TRIGGER AS
+BEGIN
+  NEW.updated_datetime = NOW();
+  RETURN NEW;
+END;
+
+CREATE TRIGGER update_students_trigger
+BEFORE UPDATE ON students
+FOR EACH ROW
+EXECUTE FUNCTION update_students_updated_datetime();
