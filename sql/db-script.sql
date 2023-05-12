@@ -58,3 +58,14 @@ SELECT s.name AS student_name, s.surname AS student_surname,
 FROM exam_results e
 JOIN students s ON s.id = e.student_id
 JOIN subjects sub ON sub.id = e.subject_id;
+
+CREATE OR REPLACE FUNCTION get_average_mark_for_student(student_id INTEGER)
+RETURNS NUMERIC AS
+$$
+BEGIN
+  RETURN (SELECT AVG(mark)
+          FROM exam_results
+          WHERE student_id = $1);
+END;
+$$
+LANGUAGE plpgsql;
