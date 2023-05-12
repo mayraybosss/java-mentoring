@@ -69,3 +69,18 @@ BEGIN
 END;
 $$
 LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION get_students_in_red_zone()
+RETURNS TABLE (student_name VARCHAR(255), student_surname VARCHAR(255)) AS
+$$
+BEGIN
+  RETURN QUERY
+  SELECT s.name, s.surname
+  FROM students s
+  JOIN exam_results e ON s.id = e.student_id
+  WHERE e.mark <= 3
+  GROUP BY s.id
+  HAVING COUNT(e.mark <= 3) >= 2;
+END;
+$$
+LANGUAGE plpgsql;
