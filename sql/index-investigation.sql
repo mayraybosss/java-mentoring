@@ -30,8 +30,6 @@ EXPLAIN ANALYZE SELECT * FROM students WHERE surname = 'Doe';
 
 EXPLAIN ANALYZE SELECT * FROM subjects WHERE tutor = 'Jane Smith';
 
-EXPLAIN ANALYZE SELECT * FROM exam_results WHERE mark > 90;
-
 -- size of indexes
 SELECT pg_size_pretty(pg_indexes_size('students'));
 SELECT pg_size_pretty(pg_indexes_size('subjects'));
