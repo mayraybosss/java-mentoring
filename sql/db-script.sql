@@ -51,3 +51,10 @@ CREATE OR REPLACE TRIGGER validate_student_name_trigger
 BEFORE INSERT OR UPDATE ON students
 FOR EACH ROW
 EXECUTE FUNCTION validate_student_name();
+
+CREATE OR REPLACE VIEW exam_results_snapshot AS
+SELECT s.name AS student_name, s.surname AS student_surname,
+       sub.subject_name, e.mark
+FROM exam_results e
+JOIN students s ON s.id = e.student_id
+JOIN subjects sub ON sub.id = e.subject_id;
