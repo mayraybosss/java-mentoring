@@ -84,3 +84,8 @@ BEGIN
 END;
 $$
 LANGUAGE plpgsql;
+
+CREATE INDEX students_name_index ON students USING btree (name);
+CREATE INDEX students_surname_index ON students USING hash (surname);
+CREATE INDEX subjects_tutor_index ON subjects USING gin (tutor);
+CREATE INDEX exam_results_mark_index ON exam_results USING gist (mark);
